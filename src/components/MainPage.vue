@@ -1,20 +1,24 @@
 <script setup>
-import Page1 from './Page1.vue';
-// import { ref } from 'vue'
-// const count = ref(0)
+import SignUp from './SignUp.vue';
+import Login from './Login.vue';
+
+
+//Routing
+
 </script>
+
 
 <template>
   <div class="container">
-    <h2>Hello</h2>
-    <p>Today</p>
-    <Page1></Page1>
+    <SignUp></SignUp>
+    <!-- <Login></Login> -->
   </div>
 </template>
 
+
 <style scoped>
+
 .container {
-  
   /* background-color:rgb(255, 142, 86); */
   background-color:wheat;
   color:brown;
@@ -23,15 +27,17 @@ import Page1 from './Page1.vue';
 
   display: flex;
   flex-direction: column;
+  /* justify-content: center;
+  align-items: center; */
   
   position:absolute;
-  right: 0;
+  left: 0;
   border-radius: 0.5rem;
 
-  width:90.8%;
+  width:98%;
   height: 100%;
-  margin: 7.5rem 1.5rem 3rem 1.5rem;
-  padding: 4rem;
+  margin: 115px 1% 10px 1%;
+  padding: 1rem 0rem;
 }
 </style>
 

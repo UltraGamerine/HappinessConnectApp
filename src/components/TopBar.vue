@@ -1,6 +1,5 @@
 <!-- Top Bar -->
 <script>
-
 export default {
   methods: {
     toggleSidebar() {
@@ -8,7 +7,6 @@ export default {
     },
   },
 };
-
 </script>
 
 <template>
@@ -16,34 +14,64 @@ export default {
     <button class="button-5"  @click="toggleSidebar">≡</button>
     <ul>
         <li>Happiness Connect</li>
-        <li style="font-weight: lighter;font-size:1.5rem;">Log In</li>
+        <div>
+        <li href="#/login" style="font-weight: lighter; padding-right: 1rem;">Log In</li>
+        <li href="#/signup" style="font-weight: lighter;">Sign Up</li>
+        </div>
     </ul>
-
   </div>
 </template>
 
 <style scoped>
+/* Phone */
+@media (max-width: 1000px){
+  .container{
+    font-size: small;
+  }
+  .ul{
+    font-size: large;
+  }
+  .li{
+    font-size: large;
+  }
+}
+/* Desktop */
+@media (min-width: 1000px){
+  .container{
+    font-size: 2rem;
+  }
+  .ul{
+    font-size: small;
+  }
+  .li{
+    font-size: small;
+  }
+}
+
 .container{
     z-index: 99;
     position: fixed;
 
     color:white;
     font-family: 'Lucida Sans';
-    font-size: 2rem;
     font-weight: bold;
     display:flex;
     align-items: center;
     justify-content:center;
     
-    width:94%;
+    width:98%;
     height: 4rem;
     
     background-color:rgb(255, 159, 80);
 
-    margin: 1rem;
-    padding: 1rem 2rem;
+    margin: 0 1% 0 0.5%;
+    /* padding: 1rem 1% 1rem 1%; */
+    padding: 1rem 0;
+
     border-radius: 0.5rem;
 }
+
+
 ul{
     cursor: pointer;
     width: 100%;
@@ -53,7 +81,7 @@ ul{
     gap: 3rem;
     flex-direction: row;
     text-align:center;
-    padding: 0 2rem;
+    padding: 0 1rem;
 }
 li{
    display: inline-block;
@@ -79,7 +107,7 @@ li{
   justify-content: center;
   height: 1rem;
   line-height: 0;
-  margin: 0;
+  margin: 0 0 0 1rem;
   min-height: 3rem;
   /* padding: calc(.875rem - 1px) calc(1.5rem - 1px); */
   padding: 2rem 2rem;

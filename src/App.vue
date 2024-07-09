@@ -21,18 +21,22 @@ export default {
     },
   },
 };
+
 </script>
 
 <template>
-  <div>
-    
-  </div>
+  <MainPage></MainPage>
   <TopBar @toggle-sidebar="toggleSidebar" />
   <SideBar :isSidebarOpen="isSidebarOpen" />
-  <MainPage></MainPage>
-
 </template>
 
 <style scoped>
-
+body{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0 0 0;
+  
+}
 </style>
