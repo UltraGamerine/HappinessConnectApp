@@ -1,0 +1,76 @@
+Sign Up
+- Teacher's Sign Up
+  - Name 
+  - Email
+  - Password
+  - Checkbox (sign in as a teacher)
+
+- Teacher's Admin Panel
+  - Courses over Years
+  - Edit Activities
+  - View Submitions
+
+- Teacher Course Creation
+  - Course Name 
+  - Course Year
+  - Unique ID Gen
+  - Select Volunteers from Student List
+
+- Student & Volunteer Sign Up
+    - Student Name
+    - Student Email
+    - Password
+    - Unique ID Input
+
+Login
+- Teacher's Login
+    - Email
+    - Password
+- Student & Volunteer
+    - Email
+    - Password
+
+Allow Notification
+    - Send Emails
+    - Mobile Notifications
+
+Attendance sheet
+- Students List
+- Teachers & Volunteers can mark
+
+Homework
+- Different Activities
+- Teachers can create
+- Students can submit
+- Volunteers can edit Submission
+
+
+Pages :
+HomePage
+- Login
+- Sign Up
+
+Dashboard
+- Admin
+- Teacher's
+- Volunteer's
+- Student's
+
+Teacher Dashboard
+- Course List
+- Course Crud
+  - Student List
+    - Attendance Sheet
+    - Student Submission
+  - Volunteers List
+
+Student Dashboard
+- Courses
+  - Activities/Homework
+  - Feedback/Review
+
+
+No Access
+Not Found
+About
+
