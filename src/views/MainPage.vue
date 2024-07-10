@@ -1,5 +1,5 @@
 <script setup>
-import SignUp from './SignUp.vue';
+import SignUp from './Signup.vue';
 import Login from './Login.vue';
 
 

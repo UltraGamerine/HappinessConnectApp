@@ -1,6 +1,7 @@
 <template>
+  <div style="margin-top: 100px;"></div>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
+    <img alt="Art Of Living Logo" style="width: 300px;" src="../assets/AOLlogo.jpg">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
 </template>

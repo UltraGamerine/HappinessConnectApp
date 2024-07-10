@@ -43,3 +43,34 @@ Homework
 - Teachers can create
 - Students can submit
 - Volunteers can edit Submission
+
+
+Pages :
+HomePage
+- Login
+- Sign Up
+
+Dashboard
+- Admin
+- Teacher's
+- Volunteer's
+- Student's
+
+Teacher Dashboard
+- Course List
+- Course Crud
+  - Student List
+    - Attendance Sheet
+    - Student Submission
+  - Volunteers List
+
+Student Dashboard
+- Courses
+  - Activities/Homework
+  - Feedback/Review
+
+
+No Access
+Not Found
+About
+

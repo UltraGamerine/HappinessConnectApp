@@ -24,7 +24,7 @@
                       <input type="checkbox">
                       <span class="slider"></span>
                     </label>
-                    <label class="checkL" style="font-size: medium;">Are you an AOL Teacher ?</label>
+                    <label class="checkL" style="font-size: medium;">Are you an AOL Teacher ?<br>(multiple days for verification)</label>
                   </div>
                   <button type="submit" class="btn-primary">Sign Up</button>
                 </div>
@@ -156,6 +156,8 @@ textarea:focus, input:focus{
     display: flex;
     justify-content: center;
     align-items: center;
+    -webkit-tap-highlight-color: transparent;
+
 }
 .checkbox-wrapper-64 input[type="checkbox"] {
   visibility: hidden;
