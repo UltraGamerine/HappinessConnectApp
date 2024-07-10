@@ -1,39 +1,40 @@
 <script setup>
+import { ref } from 'vue';
+
+const isTeacher = ref(false);
 </script>
 
 <template>
   <div> 
     <div class="container">
-      <div class="row">
-        <div class="col">
-          <div class="card">
-            <div class="card-header">
-              <h3 class="signup">Sign Up</h3>
-                <!-- input box -->
-                <div class="form-group">
-                  <input type="name" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Full Name">
-                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
-                  <input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Password">
-                  <!-- checkbox for teachers -->
-                   <!-- <div class="checks">
-                    <input type="checkbox" class="check" id="exampleCheck1">
-                    <label class="checkL" for="exampleCheck1">I am a teacher</label>
-                   </div> -->
-                   <div class="checkbox-wrapper-64">
-                    <label class="switch">
-                      <input type="checkbox">
-                      <span class="slider"></span>
-                    </label>
-                    <label class="checkL" style="font-size: medium;">Are you an AOL Teacher ?<br>(multiple days for verification)</label>
-                  </div>
-                  <button type="submit" class="btn-primary">Sign Up</button>
-                </div>
-            </div>
+
+      <h3 class="signup">Sign Up</h3>
+      
+        <!-- input box -->
+        <div class="form-group">
+          <input type="name" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Full Name">
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
+          <input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Choose Password">
+          
+          <!-- Conditionally render CourseID field -->
+          <div v-if="!isTeacher">
+          <input type="text" class="form-control" id="courseId" placeholder="Course ID">
           </div>
+
+          <div class="checkbox-wrapper-64">
+          <label class="switch">
+            <input type="checkbox" v-model="isTeacher">
+            <span class="slider"></span>
+          </label>
+          <label class="checkL" style="font-size: medium;">Are you an AOL Teacher ?</label>
+          </div>
+
+          <button type="submit" class="btn-primary">Sign Up</button>
+          
         </div>
-      </div>
     </div>
-  </div>
+</div>
+        
 </template>
 
 
@@ -133,6 +134,7 @@ textarea:focus, input:focus{
   color:white;
   background-color:#007bff;
   border-radius:5px;
+  border-style: none;
   width: 100px;
   height: 50px;
   font-size: large;

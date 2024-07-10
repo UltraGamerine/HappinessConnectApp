@@ -24,13 +24,8 @@ export default {
 
 <template>
   <NavBar @toggle-sidebar="toggleSidebar"></NavBar>
-  <SideBar :isSidebarOpen="isSidebarOpen"></SideBar>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-    <router-link to="/signup">SignUp</router-link>
-    <router-link to="/login">LogIn</router-link>
-  </nav>
+  <SideBar :isSidebarOpen="isSidebarOpen" @close-sidebar="isSidebarOpen = false"></SideBar>
+  <div>.</div>
   <router-view/>
 </template>
 

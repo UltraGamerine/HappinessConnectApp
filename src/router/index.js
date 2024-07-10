@@ -1,8 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
 import HomeView from '../views/HomeView.vue'
 import AboutView from '@/views/AboutView.vue'
+
 import Signup from '@/views/Signup.vue'
 import Login from '@/views/Login.vue'
+
+import AdminDashboard from '@/views/AdminDashboard.vue'
+
+import NotFound from '@/views/NotFound.vue'
 
 const routes = [
   {
@@ -28,7 +34,19 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login
+  },
+  {
+    path:'/admin',
+    name: 'admin',
+    component: AdminDashboard
+  },
+  //other 404
+  {
+    path: '/:catchAll(.*)*',
+    name: 'notFound',
+    component: NotFound
   }
+
 ]
 
 const router = createRouter({

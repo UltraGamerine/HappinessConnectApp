@@ -150,7 +150,7 @@ li{
 }
 
 .nblog{
-  background-color: #ffb95e;
+  background-color: #ff8c3f;
   border-radius: 10px;
   text-align: center;
   /* display: flex; */
@@ -182,14 +182,15 @@ li{
 
   justify-content: center;
   align-items: center;
+  text-align: center;
 
-  height: 1rem;
+  height: 0px;
   line-height: 0;
   margin: 0 5px 0 10px;
   min-height: 3rem;
   /* padding: calc(.875rem - 1px) calc(1.5rem - 1px); */
-  padding: 30px 20px 5px 20px;
-  padding-bottom: 2.6rem;
+  padding: 30px 20px 35px 20px;
+  /* padding-bottom: 2.6rem; */
   position: relative;
   text-decoration: none;
   transition: all 250ms;

@@ -4,23 +4,15 @@
 <template>
   <div> 
     <div class="container">
-      <div class="row">
-        <div class="col">
-          <div class="card">
-            <div class="card-header">
-              <h3 class="signup">Login</h3>
-                <!-- input box -->
-                <div class="form-group">
-                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
-                  <input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Password">
-                  <button type="submit" class="btn-primary">Login</button>
-                </div>
-            </div>
-          </div>
-        </div>
+    <h3 class="signup">Login</h3>
+      <!-- input box -->
+      <div class="form-group">
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
+        <input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Password">
+        <button type="submit" class="btn-primary">Login</button>
       </div>
-    </div>
   </div>
+</div>
 </template>
 
 
@@ -114,6 +106,7 @@ textarea:focus, input:focus{
   color:white;
   background-color:#007bff;
   border-radius:5px;
+  border-style: none;
   width: 100px;
   height: 50px;
   font-size: large;

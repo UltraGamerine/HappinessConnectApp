@@ -1,11 +1,16 @@
 
 <script>
-export default {
+  export default {
   props: {
     isSidebarOpen: {
       type: Boolean,
       required: true,
-      default: false, // Add a default value
+      default: false,
+    },
+  },
+  methods: {
+    handleLinkClick() {
+      this.$emit('close-sidebar');
     },
   },
 };
@@ -13,7 +18,7 @@ export default {
 
 <template>
   <div class="container noselect" :class="{ 'sidebar-open': isSidebarOpen }">
-     <ul>
+     <ul @click="handleLinkClick">
       <router-link to="/">Home</router-link>
         <li>Homework</li>
         <li>Attendance</li>
@@ -74,9 +79,10 @@ ul{
     text-align: left;
     list-style-type: none;
     display:flex;
-    gap: 1rem;
+    gap: 15px;
     flex-direction: column;
     padding: 1rem;
+    padding-left: 0;
     /* padding-bottom: 100%; */
     /* padding-left: 0%; */
 }
