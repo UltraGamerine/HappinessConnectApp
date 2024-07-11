@@ -1,35 +1,29 @@
 <script>
-import SideBar from '@/views/SideBar.vue'
-import NavBar from '@/views/NavBar.vue'
-// import Footer from '@/views/Footer.vue'
+import SideBar from '@/views/SideBar.vue';
+import NavBar from '@/views/NavBar.vue';
 import { store } from '@/store';
 
 export default {
   name: 'App',
   components: {
     SideBar,
-    NavBar
+    NavBar,
   },
   data() {
     return {
-      isSidebarOpen: false,
+      store,
     };
   },
-  methods: {
-    toggleSidebar() {
-      this.isSidebarOpen = !this.isSidebarOpen;
-    },
-  }
 };
-
 </script>
 
 <template>
-  <NavBar @toggle-sidebar="toggleSidebar"></NavBar>
-  <SideBar :isSidebarOpen="isSidebarOpen" @close-sidebar="isSidebarOpen = false"></SideBar>
+  <NavBar @toggle-sidebar="store.toggleSidebar" />
+  <SideBar :isSidebarOpen="store.isSidebarOpen" @close-sidebar="store.closeSidebar" />
   <div>.</div>
   <router-view/>
 </template>
+
 
 <style>
 #app {

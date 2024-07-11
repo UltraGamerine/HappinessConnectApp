@@ -86,13 +86,14 @@ if (store.userRole !== 'admin') {
   display: flex;
   flex-direction: column;
   width: 200px;
-  padding: 20px;
-  background-color: #ffa500; /* Orange */
+  padding: 10px 10px 2px 10px;
+  background-color: #ff9346; /* Orange */
+  border-radius: 15px;
 }
 
 .content {
   flex: 1;
-  padding: 20px;
+  /* padding: 20px 20px 10px 20px; */
   background-color: #fff;
 }
 
@@ -101,7 +102,7 @@ if (store.userRole !== 'admin') {
   padding: 10px;
   background-color: #fff;
   color: #ffa500;
-  border: 2px solid #ffa500;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
@@ -109,7 +110,7 @@ if (store.userRole !== 'admin') {
 }
 
 .button:hover {
-  background-color: #ffa500;
+  background-color: #ff6600;
   color: #fff;
 }
 
@@ -130,19 +131,27 @@ if (store.userRole !== 'admin') {
   color: #ffa500;
 }
 
+.list ul{
+  /* list-style-type: none; */
+  text-align: left;
+  font-weight: 500;
+}
+
 @media (max-width: 768px) {
   .admin-dashboard {
     flex-direction: column;
   }
 
   .sidebar {
-    width: 100%;
-    padding: 10px;
+    width: 90%;
+    padding: 20px 25px 10px 25px;
+    margin-left: -10px;
   }
 
   .content {
     width: 100%;
-    padding: 10px;
+    /* padding: 20px; */
+    margin: 0;
   }
 
   .button {

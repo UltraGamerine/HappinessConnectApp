@@ -1,11 +1,8 @@
 <script setup>
-import { store } from '@/store';
-import { defineEmits } from 'vue';
+import { store, toggleSidebar, closeSidebar } from '@/store';
 
-const emit = defineEmits(['toggle-sidebar']);
-
-const toggleSidebar = () => {
-  emit('toggle-sidebar');
+const handleToggleSidebar = () => {
+  toggleSidebar();
 };
 </script>
 
@@ -13,15 +10,15 @@ const toggleSidebar = () => {
   <div class="container noselect">
     <ul>
       <div class="lefters">
-        <button class="button-5" @click="toggleSidebar">≡</button>
+        <button class="button-5" @click="handleToggleSidebar">≡</button>
         <router-link to="/">
-          <li class="nbMain">Happiness Connect</li>
+          <li class="nbMain" @click="closeSidebar">Happiness Connect</li>
         </router-link>
       </div>
-      <div class="logers">
+      <div class="logers" @click="closeSidebar">
         <template v-if="!store.isAuthenticated">
           <router-link to="/login">
-            <li class="nblog">LogIn</li>
+            <li class="nblog" >LogIn</li>
           </router-link>
           <router-link to="/signup">
             <li class="nblog">SignUp</li>
@@ -34,6 +31,7 @@ const toggleSidebar = () => {
     </ul>
   </div>
 </template>
+
 
 <style scoped>
 
@@ -73,7 +71,7 @@ const toggleSidebar = () => {
 @media (min-width: 1000px){
   .container{
     /* margin: 0px; */
-    width: 99% !important;
+    width: 99.25% !important;
   }
   .lefters{
     font-size: 30px;
@@ -103,6 +101,8 @@ const toggleSidebar = () => {
     /* margin: 0 1% 0 0.5%; */
     /* padding: 1rem 1% 1rem 1%; */
     padding: 20px 0;
+    margin-left: -2px;
+    padding-right: 1px;
 
     border-radius: 0.5rem;
 }
@@ -153,15 +153,18 @@ li{
   background-color: #ff8c3f;
   border-radius: 10px;
   text-align: center;
+  font-size: 14px !important;
+  text-transform: capitalize;
+
   /* display: flex; */
   align-items: center;
-  padding: 0px 20px;
+  padding: 0px 8px 0px 8px;
   margin: 0px 5px;
   justify-content: center;
   color: #fff;
   font-weight: lighter; 
   font-size: 10px;
-  width: 30px;
+  width: 60px;
 }
 
 /* sidebar Button */
@@ -176,7 +179,7 @@ li{
   color: #fff;
   cursor: pointer;
   display: inline-flex;
-  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: 'Lucida Sans';
   font-size: 30px;
   font-weight: 600;
 
@@ -185,11 +188,11 @@ li{
   text-align: center;
 
   height: 0px;
-  line-height: 0;
+  line-height: 0px;
   margin: 0 5px 0 10px;
   min-height: 3rem;
   /* padding: calc(.875rem - 1px) calc(1.5rem - 1px); */
-  padding: 30px 20px 35px 20px;
+  padding: 32px 20px 33px 20px;
   /* padding-bottom: 2.6rem; */
   position: relative;
   text-decoration: none;

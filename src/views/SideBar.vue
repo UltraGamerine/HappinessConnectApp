@@ -1,35 +1,32 @@
+<script setup>
+import { store, closeSidebar } from '@/store';
 
-<script>
-  export default {
-  props: {
-    isSidebarOpen: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-  },
-  methods: {
-    handleLinkClick() {
-      this.$emit('close-sidebar');
-    },
-  },
+const handleLinkClick = () => {
+  closeSidebar();
 };
 </script>
 
 <template>
-  <div class="container noselect" :class="{ 'sidebar-open': isSidebarOpen }">
-     <ul @click="handleLinkClick">
-      <router-link to="/">Home</router-link>
-        <li>Homework</li>
-        <li>Attendance</li>
-        <li>Account</li>
-        <router-link to="/about">About</router-link>
-        <router-link to="/signup">SignUp</router-link>
-        <router-link to="/login">LogIn</router-link>
+  <div class="container noselect" :class="{ 'sidebar-open': store.isSidebarOpen }">
+    <ul @click="handleLinkClick">
+      <router-link to="/">
+        <li>Home</li>
+      </router-link>
+      <li>Homework</li>
+      <li>Dashboard</li>
+      <router-link to="/about">
+        <li>About</li>
+      </router-link>
+      <router-link to="/signup">
+        <li>SignUp</li>
+      </router-link>
+      <router-link to="/login">
+        <li>LogIn</li>
+      </router-link>
     </ul>
-
   </div>
 </template>
+
 
 <style scoped>
 

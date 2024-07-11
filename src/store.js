@@ -3,7 +3,12 @@ import { reactive } from 'vue';
 
 export const store = reactive({
   isAuthenticated: true,
-  userRole: 'admin', // 'admin', 'teacher', or 'user'
+  userRole: 'admin',
+  
+  // isAuthenticated: false,
+  // userRole: '',
+
+  isSidebarOpen: false, // Add this line
 });
 
 export function setUserRole(role) {
@@ -14,4 +19,13 @@ export function setUserRole(role) {
 export function clearUserRole() {
   store.isAuthenticated = false;
   store.userRole = '';
+  store.isSidebarOpen = false; // Add this line
+}
+
+export function toggleSidebar() {
+  store.isSidebarOpen = !store.isSidebarOpen;
+}
+
+export function closeSidebar() {
+  store.isSidebarOpen = false;
 }
