@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { store } from '@/store';
 
 import HomeView from '../views/HomeView.vue'
 import AboutView from '@/views/AboutView.vue'
@@ -6,7 +7,9 @@ import AboutView from '@/views/AboutView.vue'
 import Signup from '@/views/Signup.vue'
 import Login from '@/views/Login.vue'
 
-import AdminDashboard from '@/views/AdminDashboard.vue'
+import AdminDashboard from '@/views/Dashboards/AdminDashboard.vue'
+import TeacherDashboard from '@/views/Dashboards/TeacherDashboard.vue'
+import UserDashboard from '@/views/Dashboards/UserDashboard.vue'
 
 import NotFound from '@/views/NotFound.vue'
 
@@ -38,7 +41,19 @@ const routes = [
   {
     path:'/admin',
     name: 'admin',
-    component: AdminDashboard
+    component: AdminDashboard, 
+    meta: { requiresAuth: false }
+  },
+  {
+    path:'/teacher',
+    name: 'teacher',
+    component: TeacherDashboard
+
+  },
+  {
+    path:'/user',
+    name: 'user',
+    component: UserDashboard
   },
   //other 404
   {
@@ -53,5 +68,19 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+// Navigation guard to check for authenticated access
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const isAuthenticated = store.isAuthenticated;
+  const userRole = store.userRole;
+
+  if (requiresAuth && (!isAuthenticated || userRole !== 'admin')) {
+    next('/login');
+  } else {
+    next();
+  }
+});
+
 
 export default router

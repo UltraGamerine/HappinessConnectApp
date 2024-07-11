@@ -1,11 +1,11 @@
-<!-- Nav Bar -->
-<script>
-export default {
-  methods: {
-    toggleSidebar() {
-      this.$emit('toggle-sidebar');
-    },
-  },
+<script setup>
+import { store } from '@/store';
+import { defineEmits } from 'vue';
+
+const emit = defineEmits(['toggle-sidebar']);
+
+const toggleSidebar = () => {
+  emit('toggle-sidebar');
 };
 </script>
 
@@ -13,24 +13,24 @@ export default {
   <div class="container noselect">
     <ul>
       <div class="lefters">
-      <button class="button-5"  @click="toggleSidebar">≡</button>
-      
-      <router-link to="/">
-        <li class="nbMain">Happiness Connect</li>
-      </router-link>
+        <button class="button-5" @click="toggleSidebar">≡</button>
+        <router-link to="/">
+          <li class="nbMain">Happiness Connect</li>
+        </router-link>
       </div>
-        <div class="logers">
-
-        <router-link to="/login">
-          <li class = "nblog">LogIn</li>
-        </router-link>
-
-        <router-link to="/signup">
-        <li class = "nblog">SignUp</li>
-        </router-link>
-
-        </div>
-
+      <div class="logers">
+        <template v-if="!store.isAuthenticated">
+          <router-link to="/login">
+            <li class="nblog">LogIn</li>
+          </router-link>
+          <router-link to="/signup">
+            <li class="nblog">SignUp</li>
+          </router-link>
+        </template>
+        <template v-else>
+          <li class="nblog">{{ store.userRole }}</li>
+        </template>
+      </div>
     </ul>
   </div>
 </template>

@@ -1,102 +1,44 @@
 <script setup>
 import { ref } from 'vue';
-import { auth, db } from '@/firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { collection, addDoc } from "firebase/firestore";
-import { useRouter } from 'vue-router';
 
 const isTeacher = ref(false);
-const fullName = ref('');
-const email = ref('');
-const password = ref('');
-const courseId = ref('');
-const errorMessage = ref('');
-const isLoading = ref(false);
-
-const router = useRouter();
-
-const signUp = async () => {
-  errorMessage.value = '';
-  isLoading.value = true;
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
-    // User signed up successfully, you can now save additional user information like fullName and courseId to your database
-    console.log('User signed up:', userCredential.user);
-
-    const user = userCredential.user;
-
-    if (isTeacher.value) {
-      await addDoc(collection(db, "teachers"), {
-        uid: user.uid,
-        name: fullName.value,
-        email: email.value,
-        teacherAccess: false
-      });
-    } else {
-      await addDoc(collection(db, "users"), {
-        uid: user.uid,
-        name: fullName.value,
-        email: email.value,
-        courseId: [courseId.value],
-        volunteerAccess: false
-      });
-    }
-
-    // Navigate to the desired route after successful sign-up
-    router.push('/login'); // Replace '/desired-route' with your target route
-
-  } catch (error) {
-    errorMessage.value = error.message;
-  } finally {
-    isLoading.value = false;
-  }
-};
 </script>
 
-
 <template>
-  <div>
+  <div> 
     <div class="container">
-              <h3 class="signup">Sign Up</h3>
-              <!-- input box -->
-              <div class="form-group">
-                <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Full Name" v-model="fullName">
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" v-model="email">
-                <input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Password" v-model="password">
 
-                <!-- Conditionally render CourseID field -->
-                <div v-if="!isTeacher">
-                  <input type="text" class="form-control" id="courseId" placeholder="CourseID" v-model="courseId">
-                </div>
-
-                <div class="checkbox-wrapper-64">
-                  <label class="switch">
-                    <input type="checkbox" v-model="isTeacher">
-                    <span class="slider"></span>
-                  </label>
-                  <label class="checkL" style="font-size: medium;">Are you an AOL Teacher ?</label>
-                </div>
-
-                <button type="button" class="btn-primary" @click="signUp" :disabled="isLoading">
-                  <span v-if="isLoading">Signing Up...</span>
-                  <span v-else>Sign Up</span>
-                </button>
-                <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
-              </div>
-            </div>
+      <h3 class="signup">Sign Up</h3>
+      
+        <!-- input box -->
+        <div class="form-group">
+          <input type="name" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Full Name">
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
+          <input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Choose Password">
+          
+          <!-- Conditionally render CourseID field -->
+          <div v-if="!isTeacher">
+          <input type="text" class="form-control" id="courseId" placeholder="Course ID">
           </div>
+
+          <div class="checkbox-wrapper-64">
+          <label class="switch">
+            <input type="checkbox" v-model="isTeacher">
+            <span class="slider"></span>
+          </label>
+          <label class="checkL" style="font-size: medium;">Are you an AOL Teacher ?</label>
+          </div>
+
+          <button type="submit" class="btn-primary">Sign Up</button>
+          
+        </div>
+    </div>
+</div>
+        
 </template>
 
 
-
-
-
 <style scoped>
-.error-message {
-  color: red;
-  margin-top: 10px;
-}
-
 @media (min-width: 1000px){
 .container{
   background-color:rgb(241, 241, 241);

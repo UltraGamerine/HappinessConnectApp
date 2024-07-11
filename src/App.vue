@@ -2,6 +2,8 @@
 import SideBar from '@/views/SideBar.vue'
 import NavBar from '@/views/NavBar.vue'
 // import Footer from '@/views/Footer.vue'
+import { store } from '@/store';
+
 export default {
   name: 'App',
   components: {
