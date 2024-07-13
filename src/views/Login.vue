@@ -1,5 +1,89 @@
 <script setup>
 import { ref } from 'vue';
+import { auth } from '@/firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '@/firebase';
+import { store, setUserRole } from '@/store';
+import { useRouter } from 'vue-router';
+
+const email = ref('');
+const password = ref('');
+const errorMessage = ref('');
+const isLoading = ref(false);
+const router = useRouter();
+
+const login = async () => {
+  errorMessage.value = '';
+  isLoading.value = true;
+
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value);
+    const user = userCredential.user;
+    console.log('User logged in:', user.uid);
+
+    // Check for admin role
+    const adminQuery = query(collection(db, "admins"), where("uid", "==", user.uid));
+    const adminSnapshot = await getDocs(adminQuery);
+    const isAdmin = !adminSnapshot.empty;
+    console.log('Admin doc exists:', isAdmin);
+
+    // Check for teacher role
+    const teacherQuery = query(collection(db, "teachers"), where("uid", "==", user.uid));
+    const teacherSnapshot = await getDocs(teacherQuery);
+    const isTeacher = !teacherSnapshot.empty;
+    const teacherAccess = isTeacher ? teacherSnapshot.docs[0].data().teacherAccess : false;
+    console.log('Teacher doc exists:', isTeacher);
+    console.log('Teacher access:', teacherAccess);
+
+    // Check for user role
+    const userQuery = query(collection(db, "users"), where("uid", "==", user.uid));
+    const userSnapshot = await getDocs(userQuery);
+    const isUser = !userSnapshot.empty;
+    console.log('User doc exists:', isUser);
+
+    if (isAdmin) {
+      setUserRole('admin');
+      router.push('/admin');
+    } else if (isTeacher && teacherAccess) {
+      setUserRole('teacher');
+      router.push('/teacher');
+    } else if (isUser) {
+      setUserRole('user');
+      router.push('/user');
+    } else {
+      throw new Error('No valid user role found');
+    }
+  } catch (error) {
+    errorMessage.value = error.message;
+    console.error('Login error:', error);
+  } finally {
+    isLoading.value = false;
+  }
+};
+</script>
+
+<template>
+  <div>
+    <div class="container">
+      <h3 class="signup">Login</h3>
+      <div class="form-group">
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" v-model="email">
+        <input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Password" v-model="password">
+        <button type="button" class="btn-primary" @click="login" :disabled="isLoading">
+          <span v-if="isLoading">Logging In...</span>
+          <span v-else>Login</span>
+        </button>
+        <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+      </div>
+    </div>
+  </div>
+</template>
+
+
+
+<!-- <script setup>
+import { ref } from 'vue';
 import { auth, db } from '@/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
@@ -75,7 +159,7 @@ const login = async () => {
       </div>
     </div>
   </div>
-</template>
+</template> -->
 
 
 

@@ -76,7 +76,7 @@ router.beforeEach((to, from, next) => {
   const userRole = store.userRole;
 
   if (requiresAuth && (!isAuthenticated || userRole !== 'admin')) {
-    next('/login');
+    next('/');
   } else {
     next();
   }

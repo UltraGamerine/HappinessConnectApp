@@ -2,12 +2,12 @@
 import { reactive } from 'vue';
 
 export const store = reactive({
-  isAuthenticated: true,
-  userRole: 'admin',
+  // isAuthenticated: true,
+  // userRole: 'admin',
   
-  // isAuthenticated: false,
-  // userRole: '',
-
+  isAuthenticated: false,
+  userRole: '',
+  
   isSidebarOpen: false, // Add this line
 });
 
