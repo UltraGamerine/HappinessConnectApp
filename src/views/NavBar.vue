@@ -1,8 +1,15 @@
 <script setup>
-import { store, toggleSidebar, closeSidebar } from '@/store';
+import { store, toggleSidebar, closeSidebar, clearUserRole } from '@/store';
+import { auth } from '@/firebase';
+import { signOut } from 'firebase/auth';
 
 const handleToggleSidebar = () => {
   toggleSidebar();
+};
+
+const handleLogout = async () => {
+  await signOut(auth);
+  clearUserRole();
 };
 </script>
 
@@ -18,19 +25,21 @@ const handleToggleSidebar = () => {
       <div class="logers" @click="closeSidebar">
         <template v-if="!store.isAuthenticated">
           <router-link to="/login">
-            <li class="nblog" >LogIn</li>
+            <li class="nblog">LogIn</li>
           </router-link>
           <router-link to="/signup">
             <li class="nblog">SignUp</li>
           </router-link>
         </template>
         <template v-else>
+          <li class="nblog" @click="handleLogout">Logout</li>
           <li class="nblog">{{ store.userRole }}</li>
         </template>
       </div>
     </ul>
   </div>
 </template>
+
 
 
 <style scoped>

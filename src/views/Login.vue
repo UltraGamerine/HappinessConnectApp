@@ -63,6 +63,7 @@ const login = async () => {
 };
 </script>
 
+
 <template>
   <div>
     <div class="container">
@@ -79,87 +80,6 @@ const login = async () => {
     </div>
   </div>
 </template>
-
-
-
-<!-- <script setup>
-import { ref } from 'vue';
-import { auth, db } from '@/firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
-import { useRouter } from 'vue-router';
-import { store, setUserRole, clearUserRole } from '@/store';
-
-const email = ref('');
-const password = ref('');
-const errorMessage = ref('');
-const isLoading = ref(false);
-
-const router = useRouter();
-
-const login = async () => {
-  errorMessage.value = '';
-  isLoading.value = true;
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value);
-    const user = userCredential.user;
-
-    const adminDocRef = doc(db, 'admins', user.uid);
-    const adminDoc = await getDoc(adminDocRef);
-    if (adminDoc.exists()) {
-      setUserRole('admin');
-      router.push('/admin');
-      return;
-    }
-
-    const teacherDocRef = doc(db, 'teachers', user.uid);
-    const teacherDoc = await getDoc(teacherDocRef);
-    if (teacherDoc.exists() && teacherDoc.data().teacherAccess) {
-      setUserRole('teacher');
-      router.push('/teacher');
-      return;
-    }
-    
-    const userDocRef = doc(db, 'users', user.uid);
-    const userDoc = await getDoc(userDocRef);
-    if (userDoc.exists()) {
-      setUserRole('user');
-      router.push('/user');
-      return;
-    }
-    if (teacherDoc.exists() && !teacherDoc.data().teacherAccess){
-      errorMessage.value = 'Teacher Not Yet Verified';
-    }
-    else{
-      errorMessage.value = 'No valid user role found.';
-    }
-    clearUserRole();
-
-  } catch (error) {
-    errorMessage.value = error.message;
-    clearUserRole();
-  } finally {
-    isLoading.value = false;
-  }
-};
-</script>
-
-<template>
-  <div>
-    <div class="container">
-      <h3 class="signup">Login</h3>
-      <div class="form-group">
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" v-model="email">
-        <input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Password" v-model="password">
-        <button type="button" class="btn-primary" @click="login" :disabled="isLoading">
-          <span v-if="isLoading">Logging in...</span>
-          <span v-else>Login</span>
-        </button>
-        <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
-      </div>
-    </div>
-  </div>
-</template> -->
 
 
 

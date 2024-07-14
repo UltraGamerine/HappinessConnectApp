@@ -1,8 +1,23 @@
 <script setup>
-import { store, closeSidebar } from '@/store';
+import { store, closeSidebar, clearUserRole } from '@/store';
+import { auth } from '@/firebase';
+import { signOut } from 'firebase/auth';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const handleLinkClick = () => {
   closeSidebar();
+};
+
+const logout = async () => {
+  try {
+    await signOut(auth);
+    clearUserRole();
+    router.push('/login');
+  } catch (error) {
+    console.error('Logout error:', error);
+  }
 };
 </script>
 
@@ -12,20 +27,37 @@ const handleLinkClick = () => {
       <router-link to="/">
         <li>Home</li>
       </router-link>
-      <li>Homework</li>
-      <li>Dashboard</li>
-      <router-link to="/about">
-        <li>About</li>
-      </router-link>
-      <router-link to="/signup">
+
+      <router-link v-if="!store.isAuthenticated" to="/signup">
         <li>SignUp</li>
       </router-link>
-      <router-link to="/login">
+
+      <router-link v-if="!store.isAuthenticated" to="/login">
         <li>LogIn</li>
+      </router-link>
+
+      <template v-if="store.isAuthenticated">
+        <router-link v-if="store.userRole === 'admin'" to="/admin">
+          <li>Dashboard</li>
+        </router-link>
+        <router-link v-if="store.userRole === 'teacher'" to="/teacher">
+          <li>Dashboard</li>
+        </router-link>
+        <router-link v-if="store.userRole === 'user'" to="/user">
+          <li>Dashboard</li>
+        </router-link>
+        <li @click="logout">Logout</li>
+      </template>
+      <router-link to="/about">
+        <li>About</li>
       </router-link>
     </ul>
   </div>
 </template>
+
+<style scoped>
+/* Add your styles here */
+</style>
 
 
 <style scoped>

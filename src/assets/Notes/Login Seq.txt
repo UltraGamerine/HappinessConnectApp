@@ -1,28 +1,28 @@
 Sign Up
-- Teacher's Sign Up
+- Teacher's Sign Up ✅
   - Name 
   - Email
   - Password
   - Checkbox (sign in as a teacher)
 
-- Teacher's Admin Panel
+- Teacher's Admin Panel 
   - Courses over Years
-  - Edit Activities
   - View Submitions
+  - Teacher Course Creation
+    - Course Name 
+    - Course Year
+    - Unique ID Gen
+    - Select Volunteers from Student List
+      - Create Activities
 
-- Teacher Course Creation
-  - Course Name 
-  - Course Year
-  - Unique ID Gen
-  - Select Volunteers from Student List
 
-- Student & Volunteer Sign Up
+- Student & Volunteer Sign Up ✅
     - Student Name
     - Student Email
     - Password
     - Unique ID Input
 
-Login
+Login ✅
 - Teacher's Login
     - Email
     - Password
@@ -46,20 +46,22 @@ Homework
 
 
 Pages :
-HomePage
+HomePage ✅
 - Login
 - Sign Up
 
-Dashboard
+Dashboard ✅
 - Admin
 - Teacher's
 - Volunteer's
 - Student's
 
 Teacher Dashboard
-- Course List
-- Course Crud
+- Course List ✅
+- Course CRUD
+  - Course Details
   - Student List
+    - Activities
     - Attendance Sheet
     - Student Submission
   - Volunteers List
@@ -69,7 +71,7 @@ Student Dashboard
   - Activities/Homework
   - Feedback/Review
 
-
+Other - ✅
 No Access
 Not Found
 About

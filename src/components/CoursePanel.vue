@@ -1,115 +1,59 @@
-<script>
+<script setup>
+import { ref, watch } from 'vue';
 
+const props = defineProps({
+  course: Object,
+  teachers: Array
+});
+
+const courseTeachers = ref([]);
+
+watch(() => props.course, (newCourse) => {
+  if (newCourse && props.teachers) {
+    courseTeachers.value = props.teachers.filter(teacher => newCourse.teacherIDs.includes(teacher.uid));
+  }
+});
 </script>
 
 <template>
-    <!-- <div class="navbar">
-        <div class="navbar-left">
-            <div class="menu">☰</div>
-            <div class="title">Happiness Connect</div>
-        </div>
-        <div class="title2">#course panel</div>
-        <div class="admin">Admin</div>
-    </div> -->
-    <div class="container">
-        <div class="sidebar">
-            <h2>Course 1</h2>
-            <ul>
-                <li class="Teachers">Teachers</li>
-                <li class="Students">Students</li>
-                <li class="Volunteers">Volunteers</li>
-            </ul>
-        </div>
-        <div class="main-content">
-            <h2>Students</h2>
-            <div class="buttons">
-                <button class="info">Info</button>
-                <button class="Attendance">Attendance</button>
-                <button class="Homework">Homework</button>
-            </div>
-            <div class="table-container">
-                <table>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
+  <div class="course-panel">
+    <button @click="$emit('close')" class="close-button">X</button>
+    <h2>Course Details</h2>
+    <p><strong>Course Name:</strong> {{ course.courseName }}</p>
+    <p><strong>Duration:</strong> {{ course.duration }}</p>
+    <p><strong>Timing:</strong> {{ course.timing }}</p>
+    
+    <h3>Teachers</h3>
+    <ul>
+      <li v-for="teacher in courseTeachers" :key="teacher.uid">{{ teacher.name }} - {{ teacher.email }}</li>
+    </ul>
+  </div>
 </template>
 
+
+
 <style scoped>
-
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-image: linear-gradient(45deg, #ffa751, #ffb300);
-    padding: 10px 20px;
-    color: black;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-
+.course-panel {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ccc;
 }
 
-.navbar-left {
-    display: flex;
+.close-button {
+  align-self: flex-end;
+  background-color: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 5px 10px;
 }
 
-.navbar .menu {
-    font-size: 24px;
-    padding-right: 25px;
-    cursor: pointer;
-}
-
-.navbar .title {
-    font-size: 24px;
-    font-weight: bolder;
-}
-
-.navbar .panel {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.navbar .admin {
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s ease-out;
-}
-
-.navbar .admin:hover {
-    font-size: 22px;
-    transition: font-size 0.3s ease-out;
-}
-
-.navbar .admin:active {
-    transform: translateY(4px);
+.course-details {
+  border-top: 1px solid #ccc;
+  padding-top: 20px;
 }
 
 .container {

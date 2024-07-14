@@ -5,14 +5,20 @@ import { db } from '@/firebase';
 import { store } from '@/store';
 import { useRouter } from 'vue-router';
 
+import CoursePanel from '@/components/CoursePanel.vue';
+import AddCoursePanel from '@/components/AddCoursePanel.vue';
+
 const router = useRouter();
 
 const teachers = ref([]);
 const users = ref([]);
 const admins = ref([]);
 const courses = ref([]);
+const selectedCourse = ref(null);
 const errorMessage = ref('');
 const isLoading = ref(false);
+const showCoursePanel = ref(false);
+const showAddCoursePanel = ref(false);
 
 const fetchTeachers = async () => {
   isLoading.value = true;
@@ -59,11 +65,39 @@ const fetchCourses = async () => {
   try {
     const querySnapshot = await getDocs(collection(db, 'courses'));
     courses.value = querySnapshot.docs.map(doc => doc.data());
+    showCoursePanel.value = true;
   } catch (error) {
     errorMessage.value = 'Failed to fetch courses';
   } finally {
     isLoading.value = false;
   }
+};
+
+const selectCourse = async (course) => {
+  isLoading.value = true;
+  errorMessage.value = '';
+  try {
+    await fetchTeachers(); // Ensure teachers are fetched when a course is selected
+    selectedCourse.value = course;
+    showCoursePanel.value = true;
+  } catch (error) {
+    errorMessage.value = 'Failed to select course';
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+const closeCoursePanel = () => {
+  showCoursePanel.value = false;
+  selectedCourse.value = null;
+};
+
+const openAddCoursePanel = () => {
+  showAddCoursePanel.value = true;
+};
+
+const closeAddCoursePanel = () => {
+  showAddCoursePanel.value = false;
 };
 
 // Redirect if not an admin
@@ -81,6 +115,7 @@ if (store.userRole !== 'admin') {
       <button @click="fetchUsers" :disabled="isLoading" class="button">Show Users</button>
       <button @click="fetchAdmins" :disabled="isLoading" class="button">Show Admins</button>
       <button @click="fetchCourses" :disabled="isLoading" class="button">Show Courses</button>
+      <button @click="openAddCoursePanel" :disabled="isLoading" class="button">Add Course</button>
     </div>
     <div class="content">
       <div v-if="isLoading" class="loading">Loading...</div>
@@ -107,10 +142,10 @@ if (store.userRole !== 'admin') {
         </ul>
       </div>
       
-      <div v-if="courses.length" class="list">
+      <div v-if="courses.length" class="courselist">
         <h2>Courses</h2>
         <ul>
-          <li v-for="course in courses" :key="course.id">{{ course.courseName }} - {{ course.courseDuration }}</li>
+          <li v-for="course in courses" :key="course.courseID" @click="selectCourse(course)">{{ course.courseName }} - {{ course.duration }}</li>
         </ul>
       </div>
     </div>
@@ -118,7 +153,20 @@ if (store.userRole !== 'admin') {
   <div v-else>
     <p>Access denied. Please log in as an admin.</p>
   </div>
+
+  <CoursePanel 
+    v-if="showCoursePanel && selectedCourse" 
+    :course="selectedCourse"
+    :teachers="teachers"
+    @close="closeCoursePanel"
+  />
+
+  <AddCoursePanel
+    v-if="showAddCoursePanel"
+    @close="closeAddCoursePanel"
+  />
 </template>
+
 
 <style scoped>
 .admin-dashboard {
@@ -160,6 +208,10 @@ if (store.userRole !== 'admin') {
 }
 
 .content {
+  display: flex;
+  flex-direction: column;
+  justify-content:left;
+  align-items: center;
   flex-grow: 1;
   margin-left: 20px;
   background-color: #fff;
@@ -171,6 +223,16 @@ if (store.userRole !== 'admin') {
 .list {
   margin-bottom: 20px;
 }
+
+.courselist li{
+  background-color: #e28400;
+  color: #fff;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 5px;
+  margin-bottom: 5px ;
+}
+
 
 .loading {
   text-align: center;
@@ -196,170 +258,7 @@ if (store.userRole !== 'admin') {
 
   .content {
     margin-left: 0;
+    width: 80%;
   }
 }
 </style>
-
-<!-- <script setup>
-import { ref } from 'vue';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '@/firebase';
-import { store } from '@/store';
-import { useRouter } from 'vue-router';
-
-const router = useRouter();
-
-const teachers = ref([]);
-const users = ref([]);
-const errorMessage = ref('');
-const isLoading = ref(false);
-
-const fetchTeachers = async () => {
-  isLoading.value = true;
-  errorMessage.value = '';
-  try {
-    const querySnapshot = await getDocs(collection(db, 'teachers'));
-    teachers.value = querySnapshot.docs.map(doc => doc.data());
-  } catch (error) {
-    errorMessage.value = 'Failed to fetch teachers';
-  } finally {
-    isLoading.value = false;
-  }
-};
-
-const fetchUsers = async () => {
-  isLoading.value = true;
-  errorMessage.value = '';
-  try {
-    const querySnapshot = await getDocs(collection(db, 'users'));
-    users.value = querySnapshot.docs.map(doc => doc.data());
-  } catch (error) {
-    errorMessage.value = 'Failed to fetch users';
-  } finally {
-    isLoading.value = false;
-  }
-};
-
-// Redirect if not an admin
-if (store.userRole !== 'admin') {
-  router.push('/');
-}
-</script>
-
-<template>
-  <div style="margin-top: 100px;"></div>
-  <h2>Admin Dashboard</h2>
-  <div v-if="store.userRole === 'admin'" class="admin-dashboard">
-    <div class="sidebar">
-      <button @click="fetchTeachers" :disabled="isLoading" class="button">Show Teachers</button>
-      <button @click="fetchUsers" :disabled="isLoading" class="button">Show Users</button>
-    </div>
-    <div class="content">
-      <div v-if="isLoading" class="loading">Loading...</div>
-      <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
-      <div v-if="teachers.length" class="list">
-        <h2>Teachers</h2>
-        <ul>
-          <li v-for="teacher in teachers" :key="teacher.uid">{{ teacher.name }} - {{ teacher.email }}</li>
-        </ul>
-      </div>
-      <div v-if="users.length" class="list">
-        <h2>Users</h2>
-        <ul>
-          <li v-for="user in users" :key="user.uid">{{ user.name }} - {{ user.email }} - {{ user.courseId }}</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div v-else>
-    <p>Access denied. Please log in as an admin.</p>
-  </div>
-</template>
-
-<style scoped>
-.admin-dashboard {
-  display: flex;
-  flex-direction: row;
-  background-color: #fff;
-  color: #333;
-  padding: 20px;
-}
-
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  width: 200px;
-  padding: 10px 10px 2px 10px;
-  background-color: #ff9346; /* Orange */
-  border-radius: 15px;
-}
-
-.content {
-  flex: 1;
-  /* padding: 20px 20px 10px 20px; */
-  background-color: #fff;
-}
-
-.button {
-  margin-bottom: 10px;
-  padding: 10px;
-  background-color: #fff;
-  color: #ffa500;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.button:hover {
-  background-color: #ff6600;
-  color: #fff;
-}
-
-.loading {
-  font-size: 18px;
-  color: #ffa500;
-}
-
-.error-message {
-  color: red;
-}
-
-.list {
-  margin-top: 20px;
-}
-
-.list h2 {
-  color: #ffa500;
-}
-
-.list ul{
-  /* list-style-type: none; */
-  text-align: left;
-  font-weight: 500;
-}
-
-@media (max-width: 768px) {
-  .admin-dashboard {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 90%;
-    padding: 20px 25px 10px 25px;
-    margin-left: -10px;
-  }
-
-  .content {
-    width: 100%;
-    /* padding: 20px; */
-    margin: 0;
-  }
-
-  .button {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-}
-</style> -->
