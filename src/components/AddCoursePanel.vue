@@ -85,10 +85,12 @@ const submitCourse = async () => {
 input{
   width: 200px;
   height: 2rem;
-  border-radius: 0.5rem;
+  font-size: 16px;
+  border-radius: 4px;
   border: 0px solid rgb(0, 0, 0);
   padding: 0.5rem 0% 0.5rem 4%;
   margin: 10px 0px 10px 10px;
+  background-color: #e3e3e3;
 }
 
 textarea:focus, input:focus{
@@ -100,9 +102,11 @@ textarea:focus, input:focus{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #ccc;
+  background-color: #ffffff;
   padding: 20px;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
+  border-radius: 20px;
+  margin: 10px 0px;
 }
 
 .close-button {
@@ -112,7 +116,7 @@ textarea:focus, input:focus{
   border: none;
   cursor: pointer;
   border-radius: 10px;
-  padding: 5px 10px;
+  padding: 10px 15px;
 }
 
 .form-group {
@@ -147,7 +151,7 @@ textarea:focus, input:focus{
 
 .addteachbtn{
   color:white;
-  background-color:#77008d;
+  background-color:#e864ff;
   border-radius:5px;
   border-style: none;
   width: 200px;
@@ -159,7 +163,7 @@ textarea:focus, input:focus{
 
 .submitbtn{
   color:white;
-  background-color:#0073ff;
+  background-color:#ff8e15;
   border-radius:5px;
   border-style: none;
   width: 150px;

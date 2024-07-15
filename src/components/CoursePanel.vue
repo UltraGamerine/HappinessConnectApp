@@ -36,9 +36,10 @@ watch(() => props.course, (newCourse) => {
 .course-panel {
   display: flex;
   flex-direction: column;
-  background-color: #fff;
+  background-color: #ffe7cc;
   padding: 20px;
-  border: 1px solid #ccc;
+  border-radius: 20px;
+  margin: 20px 0px;
 }
 
 .close-button {

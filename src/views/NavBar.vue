@@ -32,7 +32,7 @@ const handleLogout = async () => {
           </router-link>
         </template>
         <template v-else>
-          <li class="nblog" @click="handleLogout">Logout</li>
+          <!-- <li class="nblog" @click="handleLogout">Logout</li> -->
           <li class="nblog">{{ store.userRole }}</li>
         </template>
       </div>

@@ -115,7 +115,7 @@ if (store.userRole !== 'admin') {
       <button @click="fetchUsers" :disabled="isLoading" class="button">Show Users</button>
       <button @click="fetchAdmins" :disabled="isLoading" class="button">Show Admins</button>
       <button @click="fetchCourses" :disabled="isLoading" class="button">Show Courses</button>
-      <button @click="openAddCoursePanel" :disabled="isLoading" class="button">Add Course</button>
+      <button @click="openAddCoursePanel" :disabled="isLoading" class="addButton">Add Course</button>
     </div>
     <div class="content">
       <div v-if="isLoading" class="loading">Loading...</div>
@@ -124,7 +124,7 @@ if (store.userRole !== 'admin') {
       <div v-if="teachers.length" class="list">
         <h2>Teachers</h2>
         <ul>
-          <li v-for="teacher in teachers" :key="teacher.uid">{{ teacher.name }} - {{ teacher.email }}</li>
+          <li v-for="teacher in teachers" :key="teacher.uid">{{ teacher.name }} - {{ teacher.email }} - {{ teacher.teacherAccess }}</li>
         </ul>
       </div>
       
@@ -160,13 +160,13 @@ if (store.userRole !== 'admin') {
     :teachers="teachers"
     @close="closeCoursePanel"
   />
-
+  <div v-if="showAddCoursePanel" class="add-course-panel-overlay">
   <AddCoursePanel
     v-if="showAddCoursePanel"
     @close="closeAddCoursePanel"
   />
+  </div>
 </template>
-
 
 <style scoped>
 .admin-dashboard {
@@ -207,10 +207,25 @@ if (store.userRole !== 'admin') {
   color: #fff;
 }
 
+.addButton{
+  background-color: #fff;
+  color: #ff9f50;
+  border: 8px solid #d3771b;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+}
+.addButton:hover {
+  background-color: #ff9f50;
+  color: #fff;
+}
+
 .content {
   display: flex;
   flex-direction: column;
-  justify-content:left;
+  justify-content: left;
   align-items: center;
   flex-grow: 1;
   margin-left: 20px;
@@ -224,15 +239,14 @@ if (store.userRole !== 'admin') {
   margin-bottom: 20px;
 }
 
-.courselist li{
+.courselist li {
   background-color: #e28400;
   color: #fff;
   cursor: pointer;
   padding: 5px;
   border-radius: 5px;
-  margin-bottom: 5px ;
+  margin-bottom: 5px;
 }
-
 
 .loading {
   text-align: center;
@@ -258,7 +272,21 @@ if (store.userRole !== 'admin') {
 
   .content {
     margin-left: 0;
-    width: 80%;
+    width: 90%;
   }
+}
+
+.add-course-panel-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background-color: rgba(0, 0, 0, 0.649);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 </style>

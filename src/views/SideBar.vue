@@ -24,6 +24,7 @@ const logout = async () => {
 <template>
   <div class="container noselect" :class="{ 'sidebar-open': store.isSidebarOpen }">
     <ul @click="handleLinkClick">
+
       <router-link to="/">
         <li>Home</li>
       </router-link>
@@ -46,11 +47,13 @@ const logout = async () => {
         <router-link v-if="store.userRole === 'user'" to="/user">
           <li>Dashboard</li>
         </router-link>
-        <li @click="logout">Logout</li>
+        <li @click="logout">Log Out</li>
       </template>
+
       <router-link to="/about">
         <li>About</li>
       </router-link>
+      
     </ul>
   </div>
 </template>
