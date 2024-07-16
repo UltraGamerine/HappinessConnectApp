@@ -1,23 +1,57 @@
 <script setup>
 import { ref, watch } from 'vue';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '@/firebase';
+import AddActivityPanel from './AddActivityPanel.vue';
 
 const props = defineProps({
   course: Object,
   teachers: Array
 });
 
+const emit = defineEmits(['close', 'select-activity']);
+
 const courseTeachers = ref([]);
+const activities = ref([]);
+const selectedActivity = ref(null);
+const showAddActivityPanel = ref(false);
+
+const fetchActivities = async () => {
+  if (props.course && props.course.courseID) { // Add this check
+    const q = query(collection(db, 'activities'), where('courseID', '==', props.course.courseID));
+    const querySnapshot = await getDocs(q);
+    activities.value = querySnapshot.docs.map(doc => doc.data());
+  } else {
+    activities.value = []; // Clear activities if courseID is undefined
+  }
+};
 
 watch(() => props.course, (newCourse) => {
   if (newCourse && props.teachers) {
     courseTeachers.value = props.teachers.filter(teacher => newCourse.teacherIDs.includes(teacher.uid));
+    fetchActivities();
   }
 });
+
+const selectActivity = (activity) => {
+  selectedActivity.value = activity;
+  emit('select-activity', activity);
+};
+
+const openAddActivityPanel = () => {
+  showAddActivityPanel.value = true;
+};
+
+const closeAddActivityPanel = () => {
+  showAddActivityPanel.value = false;
+};
+
 </script>
 
 <template>
   <div class="course-panel">
     <button @click="$emit('close')" class="close-button">X</button>
+    <button @click="openAddActivityPanel" class="create-button">Create Activity</button>
     <h2>Course Details</h2>
     <p><strong>Course Name:</strong> {{ course.courseName }}</p>
     <p><strong>Duration:</strong> {{ course.duration }}</p>
@@ -26,10 +60,21 @@ watch(() => props.course, (newCourse) => {
     <h3>Teachers</h3>
     <ul>
       <li v-for="teacher in courseTeachers" :key="teacher.uid">{{ teacher.name }} - {{ teacher.email }}</li>
+      <li v-if="courseTeachers.length === 0">No Teachers Found</li> <!-- Display message if no teachers -->
     </ul>
+    
+    <h3>Activities</h3>
+    <ul class="activityList">
+      <li v-for="activity in activities" :key="activity.activityID" @click="selectActivity(activity)">
+        Day {{ activity.day }} : {{ activity.name }}
+      </li>
+      <li v-if="activities.length === 0">No activities found for this course.</li> <!-- Display message if no activities -->
+    </ul>
+    <div v-if="showAddActivityPanel" class="add-activity-panel-overlay">
+    <AddActivityPanel v-if="showAddActivityPanel" @close="closeAddActivityPanel" :course="course" />
+  </div>
   </div>
 </template>
-
 
 
 <style scoped>
@@ -44,12 +89,32 @@ watch(() => props.course, (newCourse) => {
 
 .close-button {
   align-self: flex-end;
-  background-color: red;
-  color: white;
-  border: none;
+  background-color: rgba(255, 255, 255, 0);
+  color: rgb(255, 0, 0);
+  font-weight: 900;
+  border: 3px solid red;
   cursor: pointer;
   border-radius: 10px;
   padding: 5px 10px;
+}
+
+.create-button {
+  align-self: flex-start;
+  background-color: rgba(255, 255, 255, 0);
+  color: rgb(255, 140, 0);
+  font-weight: 900;
+  border: 5px solid rgb(255, 140, 0);
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 5px 10px;
+  margin-right: 10px;
+  margin-top: -35px;
+}
+
+ul {
+  padding-left: 0;
+  list-style-position: inside;
+  list-style-type: circle;
 }
 
 .course-details {
@@ -57,118 +122,44 @@ watch(() => props.course, (newCourse) => {
   padding-top: 20px;
 }
 
-.container {
-    display: flex;
-    margin: 20px;
+.activityList{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.sidebar {
-    flex: 1;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.activityList li{
+  width: fit-content;
+  background-color: #e48500;
+  color: #fff;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin: 10px 10px 10px 10px;
+}
+.activityList{
+  list-style-type:none;
+
 }
 
-.sidebar h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
+.add-activity-panel-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
-
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-}
-
-.sidebar ul li {
-    padding: 10px;
-    font-size: 18px;
-    cursor: pointer;
-    transition: 0.3s ease-out;
-}
-
-.sidebar ul li:hover {
-    font-size: 20px;
-    transition: font-size 0.3s ease-out;
-}
-
-.sidebar ul li:active {
-    border: 2px solid #000;
-    border-radius: 10px;
-    transform: translateY(4px);
-}
-
-
-
-.main-content {
-    flex: 3;
-    margin-left: 20px;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.buttons {
-    display: flex;
-    gap: 5px;
-    margin-bottom: 20px;
-}
-
-.buttons button {
-    background-color: #ffc642;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.3s ease; 
-    
-}
-
-.buttons button:hover {
-    transform: scale(1.1); 
-}
-
-.buttons button:active {
-    background-color: darkorange;
-    transform: translateY(4px);
-}
-
-.table-container {
-    border: 2px solid #000;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-td {
-    border: 1px solid #000;
-    height: 50px;
-    text-align: center;
-}
-
 
 @media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-    margin-left: 10px;
-  }
-
-  .sidebar {
+  .course-panel {
     width: 90%;
-    margin-bottom: 20px;
-  }
-
-  .main-content {
-    width: 97%;
-    margin-left: 0px;
-    padding: 10px;
+    margin: 20px auto;
   }
 }
-
 </style>

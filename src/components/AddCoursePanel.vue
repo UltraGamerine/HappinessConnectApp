@@ -52,17 +52,17 @@ const submitCourse = async () => {
 <template>
   <div class="add-course-panel">
     <button @click="$emit('close')" class="close-button">X</button>
-    <h2>Add Course</h2>
+    <h2>Create Course</h2>
     <div class="form-group">
       <label for="courseName">Course Name</label>
       <input type="text" v-model="courseName" id="courseName" />
     </div>
     <div class="form-group">
-      <label for="duration">Dates(from/to)</label>
+      <label for="duration">Dates(from/to) & Year</label>
       <input type="text" v-model="duration" id="duration" />
     </div>
     <div class="form-group">
-      <label for="timing">Timing</label>
+      <label for="timing">Timings</label>
       <input type="text" v-model="timing" id="timing" />
     </div>
     <div class="form-group">
@@ -71,7 +71,7 @@ const submitCourse = async () => {
         <input type="text" v-model="teacherIDs[index]" />
         <button @click="removeTeacherID(index)" class="removebtn" v-if="teacherIDs.length > 1">-</button>
       </div>
-      <button @click="addTeacherID" class="addteachbtn">Add Teacher ID</button>
+      <button @click="addTeacherID" class="addteachbtn">Add Another Teacher</button>
     </div>
     <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
     <div class="success-message" v-if="successMessage">{{ successMessage }}</div>
@@ -89,7 +89,7 @@ input{
   border-radius: 4px;
   border: 0px solid rgb(0, 0, 0);
   padding: 0.5rem 0% 0.5rem 4%;
-  margin: 10px 0px 10px 10px;
+  margin: 10px 5px 10px 5px;
   background-color: #e3e3e3;
 }
 
@@ -103,7 +103,7 @@ textarea:focus, input:focus{
   justify-content: center;
   align-items: center;
   background-color: #ffffff;
-  padding: 20px;
+  padding: 20px 10px;
   /* border: 1px solid #ccc; */
   border-radius: 20px;
   margin: 10px 0px;
@@ -111,12 +111,14 @@ textarea:focus, input:focus{
 
 .close-button {
   align-self: flex-end;
-  background-color: red;
-  color: white;
-  border: none;
+  background-color: white;
+  color: rgb(255, 0, 0);
+  font-weight: 900;
+  border: 3px solid red;
   cursor: pointer;
   border-radius: 10px;
-  padding: 10px 15px;
+  padding: 5px 10px;
+  margin-right: 10px;
 }
 
 .form-group {
@@ -127,6 +129,9 @@ textarea:focus, input:focus{
   display: flex;
   align-items: center;
   margin-bottom: 5px;
+  padding-left: 0;
+  margin-left: 30px;
+  width: 250px;
 }
 
 .error-message {
@@ -150,14 +155,15 @@ textarea:focus, input:focus{
 }
 
 .addteachbtn{
-  color:white;
-  background-color:#e864ff;
+  color:orange;
+  background-color:#ffffff00;
   border-radius:5px;
-  border-style: none;
+  border: 4px solid orange;
   width: 200px;
-  height: 30px;
+  height: 5=40px;
   font-size: 16px;
-  padding: 2px;
+  padding: 5px 2px;
+  cursor: pointer;
   /* margin-left: 8px; */
 }
 

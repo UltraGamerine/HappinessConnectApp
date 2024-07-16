@@ -7,6 +7,7 @@ import { useRouter } from 'vue-router';
 
 import CoursePanel from '@/components/CoursePanel.vue';
 import AddCoursePanel from '@/components/AddCoursePanel.vue';
+import ActivityPanel from '@/components/ActivityPanel.vue'; // Import the ActivityPanel component
 
 const router = useRouter();
 
@@ -15,10 +16,12 @@ const users = ref([]);
 const admins = ref([]);
 const courses = ref([]);
 const selectedCourse = ref(null);
+const selectedActivity = ref(null); // Add selectedActivity
 const errorMessage = ref('');
 const isLoading = ref(false);
 const showCoursePanel = ref(false);
 const showAddCoursePanel = ref(false);
+const showActivityPanel = ref(false); // Add showActivityPanel
 
 const fetchTeachers = async () => {
   isLoading.value = true;
@@ -100,6 +103,17 @@ const closeAddCoursePanel = () => {
   showAddCoursePanel.value = false;
 };
 
+// Handle activity selection
+const selectActivity = (activity) => {
+  selectedActivity.value = activity;
+  showActivityPanel.value = true;
+};
+
+const closeActivityPanel = () => {
+  showActivityPanel.value = false;
+  selectedActivity.value = null;
+};
+
 // Redirect if not an admin
 if (store.userRole !== 'admin') {
   router.push('/');
@@ -115,7 +129,7 @@ if (store.userRole !== 'admin') {
       <button @click="fetchUsers" :disabled="isLoading" class="button">Show Users</button>
       <button @click="fetchAdmins" :disabled="isLoading" class="button">Show Admins</button>
       <button @click="fetchCourses" :disabled="isLoading" class="button">Show Courses</button>
-      <button @click="openAddCoursePanel" :disabled="isLoading" class="addButton">Add Course</button>
+      <button @click="openAddCoursePanel" :disabled="isLoading" class="addButton">Create New Course</button>
     </div>
     <div class="content">
       <div v-if="isLoading" class="loading">Loading...</div>
@@ -159,11 +173,19 @@ if (store.userRole !== 'admin') {
     :course="selectedCourse"
     :teachers="teachers"
     @close="closeCoursePanel"
+    @select-activity="selectActivity"
   />
   <div v-if="showAddCoursePanel" class="add-course-panel-overlay">
   <AddCoursePanel
     v-if="showAddCoursePanel"
     @close="closeAddCoursePanel"
+  />
+  </div>
+  <div v-if="showActivityPanel" class="activity-panel-overlay">
+  <ActivityPanel
+    v-if="showActivityPanel"
+    :activity="selectedActivity"
+    @close="closeActivityPanel"
   />
   </div>
 </template>
@@ -186,7 +208,7 @@ if (store.userRole !== 'admin') {
   flex-direction: column;
   width: 200px;
   background-color: #ff9f50;
-  padding: 20px;
+  padding: 20px 20px 10px 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -210,7 +232,7 @@ if (store.userRole !== 'admin') {
 .addButton{
   background-color: #fff;
   color: #ff9f50;
-  border: 8px solid #d3771b;
+  border: 8px solid #ff8103;
   padding: 10px 20px;
   margin-bottom: 10px;
   border-radius: 8px;
@@ -239,13 +261,26 @@ if (store.userRole !== 'admin') {
   margin-bottom: 20px;
 }
 
+.courselist{
+  padding-top: 0;
+}
+
 .courselist li {
-  background-color: #e28400;
+  background-color: #e48500;
   color: #fff;
   cursor: pointer;
-  padding: 5px;
+  padding: 10px 20px;
   border-radius: 5px;
-  margin-bottom: 5px;
+  margin: 10px 10px 10px 10px;
+}
+.courselist ul {
+  list-style-type:none;
+
+}
+ul{
+  padding-left: 0;
+  list-style-position: inside;
+  list-style-type:circle;
 }
 
 .loading {
@@ -284,6 +319,19 @@ if (store.userRole !== 'admin') {
   bottom: 0;
 
   background-color: rgba(0, 0, 0, 0.649);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.activity-panel-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;

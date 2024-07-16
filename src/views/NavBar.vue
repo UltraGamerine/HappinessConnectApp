@@ -105,7 +105,8 @@ const handleLogout = async () => {
     width:97%;
     height: 50px;
     
-    background-color:rgb(255, 159, 80);
+    /* background-color:rgb(255, 159, 80); */
+    background-color:rgb(255, 133, 26);
 
     /* margin: 0 1% 0 0.5%; */
     /* padding: 1rem 1% 1rem 1%; */
@@ -159,7 +160,8 @@ li{
 }
 
 .nblog{
-  background-color: #ff8c3f;
+  /* background-color: #ff8c3f; */
+  background-color: #ff6f10;
   border-radius: 10px;
   text-align: center;
   font-size: 14px !important;
@@ -180,7 +182,8 @@ li{
 .button-5 {
   align-items: center;
   background-clip: padding-box;
-  background-color: #ff8a3d;
+  /* background-color: #ff8a3d; */
+  background-color: #ff6f10;
   border: 1px solid transparent;
   border-radius: .5rem;
   box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
@@ -215,7 +218,8 @@ li{
 
 .button-5:hover,
 .button-5:focus {
-  background-color: #fb8332;
+  /* background-color: #fb8332; */
+  background-color:rgb(255, 133, 26);
   box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
 }
 
